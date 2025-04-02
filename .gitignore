@@ -1,159 +1,137 @@
-# Файлы и папки Node.js
-node_modules/      # Папка с установленными модулями Node.js
-package-lock.json  # Файл блокировки версий пакетов npm
-yarn.lock          # Файл блокировки версий пакетов Yarn
+# Created by https://www.toptal.com/developers/gitignore/api/visualstudiocode,windows,jetbrains+all
+# Edit at https://www.toptal.com/developers/gitignore?templates=visualstudiocode,windows,jetbrains+all
 
-# Сгенерированные файлы
-theme/css/          # Сгенерированные файлы CSS
-theme/js/           # Сгенерированные файлы JavaScript
-theme/img/          # Сгенерированные файлы изображений
+### JetBrains+all ###
+# Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio, WebStorm and Rider
+# Reference: https://intellij-support.jetbrains.com/hc/en-us/articles/206544839
 
-# Файлы операционной системы
-.DS_Store          # Файлы метаданных macOS
-Thumbs.db           # Файлы метаданных Windows
-desktop.ini         # Служебный файл Windows
+# User-specific stuff
+.idea/**/workspace.xml
+.idea/**/tasks.xml
+.idea/**/usage.statistics.xml
+.idea/**/dictionaries
+.idea/**/shelf
 
-# Логи и временные файлы
-*.log               # Файлы журналов
-*.tmp               # Временные файлы
-*.cache             # Файлы кэша
-*.seed              # Временные файлы или файлы данных
-*.out               # Выходные файлы программ
-*.pid               # Файлы идентификаторов процессов
-*.gz                # Сжатые файлы
-*.lcov              # Файлы покрытия кода
+# AWS User-specific
+.idea/**/aws.xml
 
-# Логи и результаты
-pids/               # Папка с идентификаторами процессов
-logs/               # Папка с журналами
-results/            # Папка с результатами
-lib-cov/            # Папка с результатами покрытия кода
+# Generated files
+.idea/**/contentModel.xml
 
-# Другие файлы
-.env                # Файл переменных окружения
-npm-debug.log       # Файл отладки npm
-*.csv               # Файлы CSV
-*.dat               # Файлы данных
-.yarn-integrity     # Файл целостности Yarn
-*.tgz               # Выходные файлы 'npm pack'
-.node_repl_history # История REPL Node.js
+# Sensitive or high-churn files
+.idea/**/dataSources/
+.idea/**/dataSources.ids
+.idea/**/dataSources.local.xml
+.idea/**/sqlDataSources.xml
+.idea/**/dynamic.xml
+.idea/**/uiDesigner.xml
+.idea/**/dbnavigator.xml
 
-# Файлы редактора
-.vscode/            # Служебные файлы VS Code
-.idea/              # Служебные файлы JetBrains
+# Gradle
+.idea/**/gradle.xml
+.idea/**/libraries
 
-# Дополнительные логи
-logs
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-lerna-debug.log*
-.pnpm-debug.log*
+# Gradle and Maven with auto-import
+# When using Gradle or Maven with auto-import, you should exclude module files,
+# since they will be recreated, and may cause churn.  Uncomment if using
+# auto-import.
+# .idea/artifacts
+# .idea/compiler.xml
+# .idea/jarRepositories.xml
+# .idea/modules.xml
+# .idea/*.iml
+# .idea/modules
+# *.iml
+# *.ipr
 
-# Отчеты диагностики (https://nodejs.org/api/report.html)
-report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
+# CMake
+cmake-build-*/
 
-# Данные времени выполнения
-*.pid.lock
+# Mongo Explorer plugin
+.idea/**/mongoSettings.xml
 
-# Папка покрытия, используемая такими инструментами, как istanbul
-coverage
+# File-based project format
+*.iws
 
-# Покрытие тестов nyc
-.nyc_output
+# IntelliJ
+out/
 
-# Промежуточное хранилище Grunt (https://gruntjs.com/creating-plugins#storing-task-files)
-.grunt
+# mpeltonen/sbt-idea plugin
+.idea_modules/
 
-# Папка зависимостей Bower (https://bower.io/)
-bower_components
+# JIRA plugin
+atlassian-ide-plugin.xml
 
-# Конфигурация node-waf
-.lock-wscript
+# Cursive Clojure plugin
+.idea/replstate.xml
 
-# Скомпилированные бинарные дополнения (https://nodejs.org/api/addons.html)
-build/Release
+# SonarLint plugin
+.idea/sonarlint/
 
-# Папки зависимостей
-jspm_packages/
-web_modules/
+# Crashlytics plugin (for Android Studio and IntelliJ)
+com_crashlytics_export_strings.xml
+crashlytics.properties
+crashlytics-build.properties
+fabric.properties
 
-# Кэш TypeScript
-*.tsbuildinfo
+# Editor-based Rest Client
+.idea/httpRequests
 
-# Необязательная папка кэша npm
-.npm
+# Android studio 3.1+ serialized cache file
+.idea/caches/build_file_checksums.ser
 
-# Необязательный кэш eslint
-.eslintcache
+### JetBrains+all Patch ###
+# Ignore everything but code style settings and run configurations
+# that are supposed to be shared within teams.
 
-# Необязательный кэш stylelint
-.stylelintcache
+.idea/*
 
-# Кэш Microbundle
-.rpt2_cache/
-.rts2_cache_cjs/
-.rts2_cache_es/
-.rts2_cache_umd/
+!.idea/codeStyles
+!.idea/runConfigurations
 
-# Файлы переменных окружения dotenv
-.env.development.local
-.env.test.local
-.env.production.local
-.env.local
+### VisualStudioCode ###
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+!.vscode/*.code-snippets
 
-# Кэш parcel-bundler (https://parceljs.org/)
-.cache
-.parcel-cache
+# Local History for Visual Studio Code
+.history/
 
-# Выходные данные сборки Next.js
-.next
-out
+# Built Visual Studio Code Extensions
+*.vsix
 
-# Выходные данные сборки / генерации Nuxt.js
-.nuxt
-dist
+### VisualStudioCode Patch ###
+# Ignore all local history of files
+.history
+.ionide
 
-# Файлы Gatsby
-.cache/
-# Раскомментируйте строку public, если ваш проект использует Gatsby, а не Next.js
-# https://nextjs.org/blog/next-9-1#public-directory-support
-# public
+### Windows ###
+# Windows thumbnail cache files
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
 
-# Выходные данные сборки vuepress
-.vuepress/dist
+# Dump file
+*.stackdump
 
-# Временная папка и папка кэша vuepress v2.x
-.temp
-.cache
+# Folder config file
+[Dd]esktop.ini
 
-# Выходные данные сборки vitepress
-**/.vitepress/dist
+# Recycle Bin used on file shares
+$RECYCLE.BIN/
 
-# Папка кэша vitepress
-**/.vitepress/cache
+# Windows Installer files
+*.cab
+*.msi
+*.msix
+*.msm
+*.msp
 
-# Кэш Docusaurus и сгенерированные файлы
-.docusaurus
+# Windows shortcuts
+*.lnk
 
-# Папки Serverless
-.serverless/
-
-# Кэш FuseBox
-.fusebox/
-
-# Локальные файлы DynamoDB
-.dynamodb/
-
-# Файл порта TernJS
-.tern-port
-
-# Хранилище версий VSCode, используемых для тестирования расширений VSCode
-.vscode-test
-
-# yarn v2
-.yarn/cache
-.yarn/unplugged
-.yarn/build-state.yml
-.yarn/install-state.gz
-.pnp.*
+# End of https://www.toptal.com/developers/gitignore/api/visualstudiocode,windows,jetbrains+all
