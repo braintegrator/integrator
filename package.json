@@ -1,0 +1,32 @@
+{
+  "name": "integrator",
+  "version": "1.0.0",
+  "description": "Professional services for smart home system integration",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/braintegrator/integrator.git"
+  },
+  "keywords": [
+    "smart home integration",
+    "home automation services",
+    "IoT system installation",
+    "smart home solutions",
+    "voice control setup",
+    "Lutron programming",
+    "Crestron programming",
+    "smart lighting installation",
+    "home security automation",
+    "KNX system integration",
+    "custom smart home design"
+  ],
+  "author": "Braintegrator",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/braintegrator/integrator/issues"
+  },
+  "homepage": "https://github.com/braintegrator/integrator#readme"
+}
