@@ -1,0 +1,420 @@
+Отлично. Используя предложенную структуру папок и расширенный список плагинов Gulp, а также Bootstrap и jQuery, вот подробная инструкция по установке и настройке данной конфигурации.
+
+**Шаг 1: Создание структуры папок проекта**
+
+Создайте в корне вашего проекта следующие папки и файлы (пустые файлы будут заполнены на следующих шагах):
+
+```
+project-root/
+├── .babelrc
+├── .eslintrc.js
+├── gulpfile.js
+├── package.json
+├── src/
+│   ├── html/
+│   │   ├── blocks/
+│   │   ├── pages/
+│   ├── scss/
+│   │   ├── style.scss
+│   │   ├── components/
+│   │   ├── layout/
+│   │   ├── utils/
+│   │   └── vendors/
+│   ├── js/
+│   │   ├── main.js
+│   │   ├── components/
+│   │   ├── utils/
+│   │   └── vendors/
+│   ├── img/
+│   │   ├── general/
+│   │   ├── pages/
+│   │   ├── raster/
+│   │   └── svg/
+│   ├── svg/
+│   ├── fonts/
+│   │   ├── custom/
+│   │   └── vendors/
+│   ├── favicon.ico
+│   └── robots.txt
+└── dist/         (Эта папка будет создана Gulp)
+```
+
+**Шаг 2: Создание `package.json`**
+
+Перейдите в корневую директорию вашего проекта в терминале и выполните команду:
+
+```bash
+npm init -y
+```
+
+Эта команда создаст базовый файл `package.json`. Теперь отредактируйте его, добавив все необходимые `devDependencies` и `dependencies`:
+
+```json
+{
+  "name": "your-project-name",
+  "version": "1.0.0",
+  "description": "Your project description",
+  "main": "gulpfile.js",
+  "scripts": {
+    "dev": "gulp",
+    "build": "gulp build",
+    "clean": "gulp clean"
+  },
+  "author": "Your Name",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/core": "^7.x",
+    "@babel/preset-env": "^7.x",
+    "browser-sync": "^3.0.4",
+    "del": "^8.0.0",
+    "eslint": "^8.x",
+    "gulp": "^5.0.0",
+    "gulp-autoprefixer": "^8.0.0",
+    "gulp-babel": "^8.x",
+    "gulp-cached": "^1.1.1",
+    "gulp-clean-css": "^4.3.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-copy": "^4.0.2",
+    "gulp-eslint": "^6.0.0",
+    "gulp-file-include": "^2.3.0",
+    "gulp-header": "^2.0.9",
+    "gulp-header-comment": "^0.10.0",
+    "gulp-html-validator": "^1.0.1",
+    "gulp-if": "^3.0.0",
+    "gulp-imagemin": "^7.1.0",
+    "gulp-newer": "^1.4.0",
+    "gulp-rename": "^2.0.0",
+    "gulp-rev": "^9.0.0",
+    "gulp-rev-replace": "^0.4.4",
+    "gulp-sass": "^6.0.1",
+    "gulp-sourcemaps": "^3.0.0",
+    "gulp-svg-sprite": "^2.0.4",
+    "gulp-svgmin": "^4.1.0",
+    "gulp-uglify-es": "^3.0.0",
+    "gulp-webp": "^4.0.1",
+    "sass": "^1.86.2"
+  },
+  "dependencies": {
+    "@fancyapps/ui": "^5.0.36",
+    "@fortawesome/fontawesome-free": "^6.7.2",
+    "@popperjs/core": "^2.11.8",
+    "animate.css": "^4.1.1",
+    "bootstrap": "^5.3.3",
+    "jquery": "^3.7.1",
+    "shufflejs": "^6.1.1",
+    "slick-carousel": "^1.8.1"
+  }
+}
+```
+
+После редактирования `package.json`, выполните в терминале команду для установки всех зависимостей:
+
+```bash
+npm install
+# или
+yarn install
+```
+
+**Шаг 3: Создание `.babelrc` (для `gulp-babel`)**
+
+Если вы планируете использовать современный JavaScript и транспилировать его для поддержки старых браузеров, создайте в корне проекта файл `.babelrc` со следующим содержимым:
+
+```json
+{
+  "presets": ["@babel/preset-env"]
+}
+```
+
+**Шаг 4: Создание `.eslintrc.js` (для `gulp-eslint`)**
+
+Если вы планируете использовать линтинг JavaScript, создайте в корне проекта файл `.eslintrc.js`. Вот пример базовой конфигурации:
+
+```javascript
+module.exports = {
+  "env": {
+    "browser": true,
+    "es6": true,
+    "node": true
+  },
+  "extends": "eslint:recommended",
+  "parserOptions": {
+    "ecmaVersion": 2018,
+    "sourceType": "module"
+  },
+  "rules": {
+    "no-console": "warn"
+  }
+};
+```
+
+Вы можете настроить правила линтинга в соответствии с вашими предпочтениями.
+
+**Шаг 5: Создание `gulpfile.js`**
+
+Создайте в корне проекта файл `gulpfile.js` со следующим содержимым. Не забудьте внимательно прочитать комментарии и настроить пути в соответствии со структурой вашего проекта.
+
+```javascript
+const gulp = require('gulp');
+const browserSync = require('browser-sync').create();
+const autoprefixer = require('gulp-autoprefixer');
+const babel = require('gulp-babel');
+const cached = require('gulp-cached');
+const cleanCSS = require('gulp-clean-css');
+const concat = require('gulp-concat');
+const copy = require('gulp-copy');
+const eslint = require('gulp-eslint');
+const fileInclude = require('gulp-file-include');
+const header = require('gulp-header');
+const headerComment = require('gulp-header-comment');
+const htmlValidator = require('gulp-html-validator');
+const ifPlugin = require('gulp-if');
+const imagemin = require('gulp-imagemin');
+const newer = require('gulp-newer');
+const rename = require('gulp-rename');
+const rev = require('gulp-rev');
+const revReplace = require('gulp-rev-replace');
+const sass = require('gulp-sass')(require('sass'));
+const sourcemaps = require('gulp-sourcemaps');
+const svgSprite = require('gulp-svg-sprite');
+const svgmin = require('gulp-svgmin');
+const uglify = require('gulp-uglify-es').default;
+const webp = require('gulp-webp');
+const del = require('del');
+const packageJson = require('./package.json');
+
+// Пути к файлам и папкам (настройте под свой проект)
+const srcHTML = './src/html/pages/**/*.html'; // Обрабатываем HTML страницы
+const destHTML = './dist';
+const srcSCSS = './src/scss/style.scss';
+const watchSCSS = './src/scss/**/*.scss';
+const destCSS = './dist/css';
+const srcJS = './src/js/**/*.js';
+const destJS = './dist/js';
+const srcIMG = './src/img/**/*.{jpg,jpeg,png,svg,gif}';
+const destIMG = './dist/img';
+const srcSVG = './src/svg/**/*.svg';
+const destSVG = './dist/img/svg-sprite'; // Отдельная папка для SVG спрайта
+const srcFonts = './src/fonts/**/*';
+const destFonts = './dist/fonts';
+const staticFiles = ['./src/favicon.ico', './src/robots.txt'];
+const cleanDist = './dist';
+const isProduction = process.env.NODE_ENV === 'production'; // Пример определения режима сборки
+
+// Информация для комментариев в заголовке
+const banner = `/**
+ * @project        ${packageJson.name}
+ * @version        ${packageJson.version}
+ * @description    ${packageJson.description}
+ * @author         ${packageJson.author}
+ * @license        ${packageJson.license}
+ */\n`;
+
+function serve() {
+  browserSync.init({
+    server: {
+      baseDir: destHTML
+    }
+  });
+}
+
+function html() {
+  return gulp.src(srcHTML)
+    .pipe(fileInclude({ // Настройка для работы с подпапками
+      basepath: './src/html/'
+    }))
+    .pipe(htmlValidator())
+    .pipe(ifPlugin(isProduction, headerComment(banner)))
+    .pipe(gulp.dest(destHTML))
+    .pipe(browserSync.stream());
+}
+
+function styles() {
+  return gulp.src(srcSCSS)
+    .pipe(sourcemaps.init())
+    .pipe(sass({ outputStyle: 'compressed' }).on('error', sass.logError))
+    .pipe(autoprefixer({ cascade: false }))
+    .pipe(cleanCSS({ level: 2 }))
+    .pipe(ifPlugin(isProduction, headerComment(banner)))
+    .pipe(sourcemaps.write('./'))
+    .pipe(gulp.dest(destCSS))
+    .pipe(browserSync.stream());
+}
+
+function scripts() {
+  return gulp.src(srcJS)
+    .pipe(sourcemaps.init())
+    .pipe(cached('scripts'))
+    .pipe(eslint())
+    .pipe(eslint.format())
+    .pipe(babel({ presets: ['@babel/preset-env'] }))
+    .pipe(concat('main.min.js'))
+    .pipe(ifPlugin(isProduction, uglify()))
+    .pipe(ifPlugin(isProduction, headerComment(banner)))
+    .pipe(sourcemaps.write('./'))
+    .pipe(gulp.dest(destJS))
+    .pipe(browserSync.stream());
+}
+
+function images() {
+  return gulp.src(srcIMG)
+    .pipe(newer(destIMG))
+    .pipe(webp())
+    .pipe(gulp.dest(destIMG))
+    .pipe(gulp.src(srcIMG))
+    .pipe(newer(destIMG))
+    .pipe(imagemin([
+      imagemin.gifsicle({ interlaced: true }),
+      imagemin.mozjpeg({ quality: 75, progressive: true }),
+      imagemin.optipng({ optimizationLevel: 5 }),
+      imagemin.svgo({ plugins: [{ removeViewBox: false }] })
+    ]))
+    .pipe(gulp.dest(destIMG))
+    .pipe(browserSync.stream());
+}
+
+function svgSpriteTask() {
+  return gulp.src(srcSVG)
+    .pipe(svgmin({ js2svg: { pretty: true } }))
+    .pipe(svgSprite({
+      mode: {
+        symbol: {
+          sprite: '../sprite.svg'
+        }
+      }
+    }))
+    .pipe(gulp.dest(destSVG));
+}
+
+function fonts() {
+  return gulp.src(srcFonts)
+    .pipe(gulp.dest(destFonts))
+    .pipe(browserSync.stream());
+}
+
+function copyStatic() {
+  return gulp.src(staticFiles)
+    .pipe(gulp.dest(destHTML));
+}
+
+function copyLibs() {
+  return gulp.src([
+    'node_modules/@fancyapps/ui/dist/fancybox.umd.js',
+    'node_modules/@fancyapps/ui/dist/fancybox.css',
+    'node_modules/@fortawesome/fontawesome-free/css/all.min.css',
+    'node_modules/@fortawesome/fontawesome-free/webfonts/**',
+    'node_modules/animate.css/animate.min.css',
+    'node_modules/bootstrap/dist/css/bootstrap.min.css',
+    'node_modules/bootstrap/dist/js/bootstrap.bundle.min.js',
+    'node_modules/jquery/dist/jquery.min.js',
+    'node_modules/shufflejs/dist/shuffle.min.js',
+    'node_modules/slick-carousel/slick/slick.min.js',
+    'node_modules/slick-carousel/slick/slick.css',
+    'node_modules/slick-carousel/slick/slick-theme.css',
+    // Добавьте пути к другим необходимым файлам библиотек
+  ], { base: 'node_modules' })
+  .pipe(gulp.dest('./dist/libs'));
+}
+
+function clean() {
+  return del(cleanDist);
+}
+
+function watch() {
+  gulp.watch('./src/html/**/*.html', html); // Следим за всеми HTML файлами в src/html
+  gulp.watch(watchSCSS, styles);
+  gulp.watch(srcJS, scripts);
+  gulp.watch('./src/img/**', images); // Следим за всеми файлами в src/img
+  gulp.watch(srcSVG, svgSpriteTask);
+  gulp.watch(srcFonts, fonts);
+  gulp.watch(staticFiles, copyStatic);
+}
+
+const build = gulp.series(clean, gulp.parallel(html, styles, scripts, images, svgSpriteTask, fonts, copyStatic, copyLibs));
+const dev = gulp.series(build, serve, watch);
+
+exports.serve = serve;
+exports.html = html;
+exports.styles = styles;
+exports.scripts = scripts;
+exports.images = images;
+exports.svgSprite = svgSpriteTask;
+exports.fonts = fonts;
+exports.copyStatic = copyStatic;
+exports.copyLibs = copyLibs;
+exports.clean = clean;
+exports.watch = watch;
+exports.build = build;
+exports.default = dev;
+```
+
+**Шаг 6: Создание базовых HTML файлов**
+
+Создайте несколько HTML файлов в папке `src/html/pages/` (например, `index.html`, `about/index.html`, `contact/index.html`). Вы можете использовать `@@include` для включения блоков из `src/html/blocks/`.
+
+**Пример `src/html/pages/index.html`:**
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Homepage</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="libs/@fancyapps/ui/dist/fancybox.css">
+  <link rel="stylesheet" href="libs/@fortawesome/fontawesome-free/css/all.min.css">
+  <link rel="stylesheet" href="libs/animate.css/animate.min.css">
+  <link rel="stylesheet" href="libs/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="libs/slick-carousel/slick/slick.css">
+  <link rel="stylesheet" href="libs/slick-carousel/slick/slick-theme.css">
+</head>
+<body>
+  @@include('../blocks/_header.html')
+
+  <main>
+    <h1>Welcome to the Homepage</h1>
+    </main>
+
+  @@include('../blocks/_footer.html')
+
+  <script src="libs/jquery/dist/jquery.min.js"></script>
+  <script src="libs/@popperjs/core/dist/umd/popper.min.js"></script>
+  <script src="libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="libs/@fancyapps/ui/dist/fancybox.umd.js"></script>
+  <script src="libs/slick-carousel/slick/slick.min.js"></script>
+  <script src="libs/shufflejs/dist/shuffle.min.js"></script>
+  <script src="js/main.min.js"></script>
+</body>
+</html>
+```
+
+**Шаг 7: Создание базовых SCSS и JavaScript файлов**
+
+Создайте `src/scss/style.scss` и импортируйте туда стили Bootstrap и Animate.css (или другие необходимые стили):
+
+```scss
+// src/scss/style.scss
+@import 'vendors/bootstrap/scss/bootstrap';
+@import 'vendors/animate.css/animate.css';
+@import 'components/your-component-styles';
+@import 'layout/your-layout-styles';
+@import 'utils/your-utility-styles';
+// Ваши основные стили
+body {
+  font-family: sans-serif;
+  margin: 0;
+  padding: 0;
+}
+```
+
+Создайте `src/js/main.js` и подключите там необходимые скрипты jQuery, Bootstrap и других библиотек (если это не сделано напрямую в HTML):
+
+```javascript
+// src/js/main.js
+import $ from 'jquery';
+import 'bootstrap/dist/js/bootstrap.bundle';
+import 'slick-carousel';
+import Fancybox from '@fancyapps/ui';
+import Shuffle from 'shufflejs';
+
+$(document).ready(function
